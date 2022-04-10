@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import * as adminAuth from 'src/app/store/admin-auth-store/store/admin-auth.selectors';
+import {login} from '../../../../store/admin-auth-store/store/admin-auth.actions';
+
 
 @Component({
   selector: 'app-admin-login-block',
@@ -7,16 +12,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLoginBlockComponent implements OnInit {
 
+
+  loading$: Observable<boolean> = this.store$.pipe(select(adminAuth.getLoading));
+  loaded$: Observable<boolean> = this.store$.pipe(select(adminAuth.getLoaded));
+  serverError$: Observable<string> = this.store$.pipe(select(adminAuth.getServerError));
+
+
+
   serverError = '';
 
-  constructor() { }
+  constructor(private store$: Store) { }
+
+
 
   ngOnInit(): void {
   }
 
-  onLogin(value) {
-    console.log('onLogin', value);
-    this.serverError += 'F';
+  onLogin(loginPayload: {login: string, password: string}) {
+    console.log('onLogin', loginPayload);
+    this.store$.dispatch(login(loginPayload));
   }
 
 }
