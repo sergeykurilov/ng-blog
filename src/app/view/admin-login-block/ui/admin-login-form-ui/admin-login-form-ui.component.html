@@ -11,7 +11,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Пароль</mat-label>
-    <input matInput formControlName="password" />
+    <input type="password" matInput formControlName="password" />
     <mat-error *ngIf="formGroup.hasError('required', 'login')">Это поле обьязательно</mat-error>
   </mat-form-field>
 
