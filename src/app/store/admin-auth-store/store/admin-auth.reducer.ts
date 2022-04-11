@@ -6,6 +6,13 @@ export const ADMIN_AUTH_FEATURE_NAME = 'admin-auth';
 
 export interface AuthData {
   accessToken: string;
+  // admin id in mysql
+  id: number;
+  iat: number;
+  //
+  // Expiring at timestamp
+  //
+  exp: number;
 }
 
 export interface AdminAuthState {
@@ -29,7 +36,7 @@ export const adminAuthReducer = createReducer(
     loading: true,
     serverError: '',
   })),
-  on(loginSuccess, (state, authData: AuthData) => {
+  on(loginSuccess, (state, {type, ...authData}: {type: string} & AuthData ) => {
     return {
       ...state,
       loading: false,
