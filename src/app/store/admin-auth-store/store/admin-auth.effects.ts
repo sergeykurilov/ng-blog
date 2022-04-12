@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {createEffect, Actions, ofType} from '@ngrx/effects';
-import {catchError, delay, filter, first, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, delay, distinctUntilChanged, filter, first, map, skip, switchMap, tap} from 'rxjs/operators';
 import {fromEvent, of, timer} from 'rxjs';
 import {extractLoginData, initAdminAuth, login, loginFailed, loginSuccess, logoutSuccess} from './admin-auth.actions';
 import { AdminAuthService } from '../services/admin-auth.service';
 import {AuthData} from './admin-auth.reducer';
 import {select, Store} from '@ngrx/store';
 import {isAuth} from './admin-auth.selectors';
+import {Router} from '@angular/router';
 
 
 @Injectable()
@@ -15,7 +16,8 @@ export class AdminAuthEffects  {
   constructor(
     private actions$: Actions,
     private adminAuthService: AdminAuthService,
-    private store$: Store
+    private store$: Store,
+    private router: Router
   ) {}
 
   login$ = createEffect(() => this.actions$.pipe(
@@ -32,6 +34,17 @@ export class AdminAuthEffects  {
       )
     ))
   ));
+
+  listenAuthorizeEffect = createEffect(() => this.actions$.pipe(
+    ofType(initAdminAuth),
+    map(() => extractLoginData()),
+    switchMap(() => this.adminAuthService.isAuth$),
+    filter(authData => authData !== undefined),
+    map(authData => !!authData),
+    distinctUntilChanged(),
+    skip(1),
+    tap(isAuthorized => this.router.navigateByUrl(isAuthorized ? '/admin' : '/admin/auth/login')),
+  ), { dispatch: false });
 
   saveAuthDataToLocalStorage$ = createEffect(() => this.actions$.pipe(
     ofType(loginSuccess),
