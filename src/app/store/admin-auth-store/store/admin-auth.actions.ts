@@ -16,3 +16,11 @@ export const loginFailed = createAction(
   '[Admin Auth] Login Failure',
   props<{ serverError: string }>()
 );
+
+export const initAdminAuth = createAction(
+  '[Admin Auth] Init Admin Auth'
+);
+
+export const logoutSuccess = createAction(
+  '[Admin Auth] Logout Success'
+);
