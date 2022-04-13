@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {createEffect, Actions, ofType} from '@ngrx/effects';
 import {catchError, delay, distinctUntilChanged, filter, first, map, skip, switchMap, tap} from 'rxjs/operators';
 import {fromEvent, of, timer} from 'rxjs';
-import {extractLoginData, initAdminAuth, login, loginFailed, loginSuccess, logoutSuccess} from './admin-auth.actions';
+import {extractLoginData, initAdminAuth, login, loginFailed, loginSuccess, logout, logoutSuccess} from './admin-auth.actions';
 import { AdminAuthService } from '../services/admin-auth.service';
 import {AuthData} from './admin-auth.reducer';
 import {select, Store} from '@ngrx/store';
@@ -70,7 +70,7 @@ export class AdminAuthEffects  {
 
       const authData: AuthData = JSON.parse(authDataString);
 
-      if ((authData.exp * 1000 - 10 * 1000 - Date.now()) < 0){
+      if ((authData.exp * 1000 - 10 * 1000 - Date.now()) < 0) {
         return logoutSuccess();
       }
 
@@ -92,5 +92,13 @@ export class AdminAuthEffects  {
     )),
     switchMap(() => this.adminAuthService.refresh()),
     map((authData) => loginSuccess({authData})),
+  ));
+
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(logout),
+    map(() => {
+      localStorage.removeItem('authData');
+      return logoutSuccess();
+    })
   ));
 }

@@ -6,7 +6,6 @@ import {AdminFooterBlockModule} from '../../../../view/admin-footer-block/admin-
 import {AdminHeaderBlockModule} from '../../../../view/admin-header-block/admin-header-block.module';
 
 
-
 @NgModule({
   declarations: [AdminPageComponent],
   imports: [
@@ -21,8 +20,9 @@ import {AdminHeaderBlockModule} from '../../../../view/admin-header-block/admin-
         path: 'dashboard',
         component: AdminPageComponent,
         loadChildren: () => import('./routing/dashboard/dashboard.module')
-          .then(m => m.DashboardModule)
-      }
+          .then(m => m.DashboardModule),
+
+      },
     ]),
     AdminFooterBlockModule,
     AdminHeaderBlockModule

@@ -21,6 +21,10 @@ export const initAdminAuth = createAction(
   '[Admin Auth] Init Admin Auth'
 );
 
+export const logout = createAction(
+  '[Admin Auth] Logout'
+);
+
 export const logoutSuccess = createAction(
   '[Admin Auth] Logout Success'
 );
