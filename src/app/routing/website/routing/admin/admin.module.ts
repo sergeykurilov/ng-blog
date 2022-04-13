@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import {AdminFooterBlockModule} from '../../../../view/admin-footer-block/admin-footer-block.module';
 import {AdminHeaderBlockModule} from '../../../../view/admin-header-block/admin-header-block.module';
+import {AdminNavBlockModule} from '../../../../view/admin-nav-block/admin-nav-block.module';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {AdminHeaderBlockModule} from '../../../../view/admin-header-block/admin-
       },
     ]),
     AdminFooterBlockModule,
-    AdminHeaderBlockModule
+    AdminHeaderBlockModule,
+    AdminNavBlockModule,
   ]
 })
 export class AdminModule { }
