@@ -23,6 +23,20 @@ import {AdminHeaderBlockModule} from '../../../../view/admin-header-block/admin-
           .then(m => m.DashboardModule),
 
       },
+      {
+        path: 'grid/:namespace/:entity',
+        component: AdminPageComponent,
+        loadChildren: () => import('./routing/grid/grid.module')
+          .then(m => m.GridModule),
+
+      },
+      {
+        path: 'form/:namespace/:entity',
+        component: AdminPageComponent,
+        loadChildren: () => import('./routing/form/form.module')
+          .then(m => m.FormModule),
+
+      },
     ]),
     AdminFooterBlockModule,
     AdminHeaderBlockModule
